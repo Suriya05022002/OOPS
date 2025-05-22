@@ -310,15 +310,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "code": null,
     "answer": "Inheritance is the OOP concept used for code reuse, allowing a subclass to inherit properties and methods from a superclass."
   },
-  {
-    "id": 45,
-    "category": "basic",
-    "question": "Which OOP concept exposes only necessary information to calling functions?",
-    "code": null,
-    "answer": "Encapsulation hides internal details and exposes only what is necessary, typically through public methods while keeping data private."
-  },
   
-  {
+    {
     "id": 45,
     "category": "basic",
     "question": "What is static and dynamic Binding?",
