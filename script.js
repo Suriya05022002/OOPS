@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
         '<i class="fas fa-eye-slash"></i> Hide Answer';
       } else {
-        showAnswerBtn.innerHTML = '<span class="eye-icon">👁️</span> Show Answer';
+        showAnswerBtn.innerHTML = '<i class="fas fa-eye"></i> Show Answer';
       }
     }
   }
