@@ -97,8 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "id": 14,
     "category": "intermediate",
     "question": "What is function overloading?",
-    "code": "void add(int a, int b);\nvoid add(double a, double b);",
-    "answer": "Function overloading allows multiple functions with the same name but different parameters (type, number, or order) to coexist in the same scope. The correct function is called based on the arguments provided."
+    "code": null,
+    "answer": "void add(int a, int b);\nvoid add(double a, double b); <br><br>Function overloading allows multiple functions with the same name but different parameters (type, number, or order) to coexist in the same scope. The correct function is called based on the arguments provided."
   },
   {
     "id": 15,
@@ -118,8 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "id": 17,
     "category": "basic",
     "question": "What is a ternary operator?",
-    "code": "condition ? expr1 : expr2",
-    "answer": "The ternary operator is a conditional operator that takes three arguments: a condition, an expression to execute if the condition is true, and another expression if the condition is false."
+    "code": null,
+    "answer": "condition ? expr1 : expr2 <br><br> The ternary operator is a conditional operator that takes three arguments: a condition, an expression to execute if the condition is true, and another expression if the condition is false."
   },
   {
     "id": 18,
@@ -160,8 +160,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "id": 23,
     "category": "intermediate",
     "question": "What is exception handling?",
-    "code": "try { ... } catch (Exception e) { ... }",
-    "answer": "Exception handling is a mechanism to handle runtime errors gracefully. It uses 'try', 'catch', and 'throw' keywords to manage exceptions and ensure the program can recover or fail safely."
+    "code": null,
+    "answer": "try { ... } catch (Exception e) { ... } <br><br>Exception handling is a mechanism to handle runtime errors gracefully. It uses 'try', 'catch', and 'throw' keywords to manage exceptions and ensure the program can recover or fail safely."
   },
   {
     "id": 24,
@@ -258,8 +258,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "id": 37,
     "category": "intermediate",
     "question": "What is a pure virtual function?",
-    "code": "virtual void function() = 0;",
-    "answer": "A pure virtual function is a virtual function with no implementation in the base class, making the class abstract. Derived classes must override this function to instantiate objects."
+    "code": null,
+    "answer": "virtual void function() = 0; <br><br>A pure virtual function is a virtual function with no implementation in the base class, making the class abstract. Derived classes must override this function to instantiate objects."
   },
   {
     "id": 38,
@@ -310,7 +310,6 @@ document.addEventListener("DOMContentLoaded", function () {
     "code": null,
     "answer": "Inheritance is the OOP concept used for code reuse, allowing a subclass to inherit properties and methods from a superclass."
   },
-  
     {
     "id": 45,
     "category": "basic",
@@ -329,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "id": 47,
     "category": "intermediate",
     "question": "Which keyword can be used for overloading?",
-    "code": "operator+",
+    "code": null,
     "answer": "The 'operator' keyword is used for operator overloading (e.g., overloading '+' with 'operator+'). For method overloading, no keyword is needed—just define multiple methods with the same name but different parameters."
   },
   {
@@ -370,6 +369,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // State
   let currentQuestionIndex = 0;
   let filteredQuestions = [...questions];
+  let isAnswerVisible = false; // Track answer visibility state
 
   // Initialize
   totalQuestionsSpan.textContent = questions.length;
@@ -405,24 +405,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     let html = `
-            <div class="question-number">Question ${question.id}</div>
-            <h2 class="question-title">${question.question}</h2>
-        `;
+      <div class="question-number">Question ${question.id}</div>
+      <h2 class="question-title">${question.question}</h2>
+    `;
 
     if (question.code) {
       html += `
-                <div class="code-block">
-                    <code>${formatCode(question.code)}</code>
-                </div>
-            `;
+        <div class="code-block">
+          <code>${formatCode(question.code)}</code>
+        </div>
+      `;
     }
 
     html += `
-            <div class="answer-container" id="answer-container">
-                <h3>Answer:</h3>
-                <div class="answer-content">${question.answer}</div>
-            </div>
-        `;
+      <div class="answer-container" id="answer-container" style="display: ${isAnswerVisible ? 'block' : 'none'}">
+        <h3>Answer:</h3>
+        <div class="answer-content">${question.answer}</div>
+      </div>
+    `;
 
     questionCard.innerHTML = html;
 
@@ -432,6 +432,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     prevBtn.disabled = index === 0;
     nextBtn.disabled = index === filteredQuestions.length - 1;
+
+    // Update button text based on answer visibility
+    updateAnswerButtonText();
 
     // Update active question in list
     const questionItems = document.querySelectorAll(".question-item");
@@ -472,18 +475,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function toggleAnswer() {
+    isAnswerVisible = !isAnswerVisible;
     const answerContainer = document.getElementById("answer-container");
     if (answerContainer) {
-      answerContainer.classList.toggle("visible");
-
-      if (answerContainer.classList.contains("visible")) {
-        showAnswerBtn.innerHTML = 
-      
-        '<i class="fas fa-eye-slash"></i> Hide Answer';
-      } else {
-        showAnswerBtn.innerHTML = '<i class="fas fa-eye"></i> Show Answer';
-      }
+      answerContainer.style.display = isAnswerVisible ? 'block' : 'none';
+      updateAnswerButtonText();
     }
+  }
+
+  function updateAnswerButtonText() {
+    showAnswerBtn.innerHTML = isAnswerVisible 
+      ? '<i class="fas fa-eye-slash"></i> Hide Answer' 
+      : '<i class="fas fa-eye"></i> Show Answer';
   }
 
   function updateQuestionList() {
@@ -526,6 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Reset to first question if current is out of bounds
     currentQuestionIndex = 0;
+    isAnswerVisible = false; // Reset answer visibility when filtering
 
     updateQuestionList();
     displayQuestion(currentQuestionIndex);
